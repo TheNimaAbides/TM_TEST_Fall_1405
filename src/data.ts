@@ -24,7 +24,7 @@ const sampleCourse: Course = {
 
 const sepidarCourse: Course = {
   id: 'sepidar-1',
-  title: 'دوره آموزش سپیدار ۱',
+  title: 'دوره آموزش سپیدار مقدماتی',
   description: 'آشنایی با محیط و تنظیمات اولیه نرم‌افزار سپیدار',
   chapters: [
     { id: 'sp-ch-1', title: 'فصل اول: شروع کار با سپیدار', lessons: [
