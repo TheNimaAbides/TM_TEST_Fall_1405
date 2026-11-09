@@ -19,7 +19,7 @@
 .adm-preview{max-width:100%;max-height:260px;border-radius:12px;border:1px solid var(--line);object-fit:contain;align-self:center}
 .file-pick{position:relative;overflow:hidden}.file-pick input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
 .adm-muted{color:var(--muted);font-size:13px;margin:4px 0;line-height:1.9}
-.adm-warn{color:#b26a00;font-size:13px;margin:4px 0;line-height:1.9}:root[data-theme=dark] .adm-warn{color:#ffb74d}
+.adm-warn{color:var(--accent);font-size:13px;margin:4px 0;line-height:1.9}:root[data-theme=dark] .adm-warn{color:var(--accent)}
 .adm-err,.adm-ok{display:flex;flex-direction:column;gap:6px;padding:12px 14px;border-radius:12px;margin:10px 0;font-size:13px;line-height:1.9;position:relative}.adm-err{background:#fdecec;color:#a11;border:1px solid #f3b6b6}.adm-ok{background:#e9f8ee;color:#16672f;border:1px solid #b7e3c4}
 :root[data-theme=dark] .adm-err{background:#3b1f22;color:#ffb3b3;border-color:#6b3037}:root[data-theme=dark] .adm-ok{background:#183a27;color:#a8e6bd;border-color:#2c6a45}
 .adm-err>button,.adm-ok>button{position:absolute;top:2px;left:2px;width:44px;height:44px;border:0;background:none;color:inherit;font-size:15px}
