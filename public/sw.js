@@ -4,8 +4,8 @@
 //   پس نسخه قدیمی برنامه در دستگاه باقی نمی‌ماند. بدون اینترنت از کش خوانده می‌شود.
 // - فایل محتوا (content/content.json): ابتدا شبکه (تا محتوای جدید برسد)؛ فایل‌های بارگذاری‌شده‌ای که دیگر در محتوا نیستند از کش پاک می‌شوند.
 // - سایر فایل‌ها: ابتدا کش، سپس شبکه.
-const CACHE_NAME = 'tarazmoshaver-v7';
-const APP_SHELL = ['./', './content/content.json', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png', './icons/icon-maskable-512.png', './icons/apple-touch-icon.png'];
+const CACHE_NAME = 'tarazmoshaver-v8';
+const APP_SHELL = ['./', './content/content.json', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png', './icons/icon-maskable-512.png', './icons/apple-touch-icon.png', './logo-emblem.png', './logo-full.png'];
 const CACHEABLE_EXTERNAL = ['fonts.googleapis.com', 'fonts.gstatic.com'];
 const ASSETS_PREFIX = () => self.registration.scope + 'assets/';
 

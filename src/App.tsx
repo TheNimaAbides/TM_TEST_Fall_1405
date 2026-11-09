@@ -183,7 +183,7 @@ function App() {
   return (
     <div className="app-shell">
       <header className="topbar">
-        <button className="brand-mark" onClick={goHome} aria-label="صفحه اصلی"><span>ت</span></button>
+        <button className="brand-mark" onClick={goHome} aria-label="صفحه اصلی"><img src={`${import.meta.env.BASE_URL}logo-emblem.png`} alt="لوگوی ترازمشاور" /></button>
         <div className="brand-copy"><strong>ترازمشاور</strong><small>نسخه آزمایشی</small></div>
         <div className="top-actions">
           <button className="icon-button" aria-label={isDark ? 'تغییر به حالت روز' : 'تغییر به حالت شب'} onClick={() => setTheme(isDark ? 'light' : 'dark')}>{isDark ? <Sun size={19}/> : <Moon size={19}/>}</button>
@@ -284,7 +284,7 @@ function App() {
             <button className="setting-row" onClick={() => setTab('offline')}><Download/><span><strong>مدیریت محتوای آفلاین</strong><small>مشاهده فایل‌های ذخیره‌شده</small></span><ChevronLeft/></button>
             <button className="setting-row" onClick={() => { window.location.hash = '#/admin' }}><ShieldCheck/><span><strong>پنل مدیریت</strong><small>ورود مدیر و ویرایش محتوا</small></span><ChevronLeft/></button>
           </div>
-          <div className="settings-group"><h3>درباره برنامه</h3><div className="about-card"><strong>ترازمشاور (آزمایشی)</strong><span>نسخه {APP_VERSION}</span><p>مرجع آموزشی مؤسسه؛ نسخه اولیه جهت بررسی ساختار و تجربه کاربری.</p></div></div>
+          <div className="settings-group"><h3>درباره برنامه</h3><div className="about-card"><div className="about-logo"><img src={`${import.meta.env.BASE_URL}logo-full.png`} alt="ترازمشاور؛ خدمات مالی، مالیاتی و حسابداری؛ برگزارکننده دوره‌های آموزشی" /></div><strong>ترازمشاور (آزمایشی)</strong><span>نسخه {APP_VERSION}</span><p>مرجع آموزشی مؤسسه؛ نسخه اولیه جهت بررسی ساختار و تجربه کاربری.</p></div></div>
         </section>}
         </div>
       </main>
