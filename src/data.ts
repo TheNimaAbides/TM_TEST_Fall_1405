@@ -50,5 +50,5 @@ export const categories: Category[] = [
   { id: 'excel', title: 'اکسل', icon: 'table', color: 'green', courses: [] },
   { id: 'word', title: 'ورد', icon: 'file', color: 'blue', courses: [] },
   { id: 'typing', title: 'تایپ ده‌انگشتی', icon: 'keyboard', color: 'amber', courses: [] },
-  { id: 'career', title: 'محاسبه شغلی', icon: 'briefcase', color: 'slate', courses: [] },
+  { id: 'career', title: 'مصاحبه شغلی', icon: 'briefcase', color: 'slate', courses: [] },
 ]
