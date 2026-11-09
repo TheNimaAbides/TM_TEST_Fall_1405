@@ -1,11 +1,15 @@
-import { useEffect, useMemo, useState } from 'react'
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import {
   BookOpen, BriefcaseBusiness, Calculator, ChartNoAxesCombined, ChevronLeft,
   Download, FileText, FileSpreadsheet, Home, Keyboard, Monitor, Moon, Receipt, Search, Settings,
   ShoppingBag, Sun, Type, Wallet, Bell, ArrowRight, RefreshCw, ShieldCheck, X, BookMarked,
 } from 'lucide-react'
-import { categories, type Category, type Course, type Lesson } from './data'
+import type { Category, Chapter, Course, Lesson } from './data'
+import { fetchContent } from './content'
+import { BlockView } from './BlockView'
 import { APP_VERSION, checkForUpdate } from './update'
+
+const Admin = lazy(() => import('./admin/Admin'))
 
 type Tab = 'home' | 'courses' | 'offline' | 'settings'
 type Theme = 'light' | 'dark' | 'system'
@@ -26,7 +30,10 @@ function App() {
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null)
   const [selectedLesson, setSelectedLesson] = useState<Lesson | null>(null)
   const [expanded, setExpanded] = useState<string[]>(['ch-1'])
-  const [showAdminInfo, setShowAdminInfo] = useState(false)
+  const [categories, setCategories] = useState<Category[] | null>(null)
+  const [loadFailed, setLoadFailed] = useState(false)
+  const lastRaw = useRef('')
+  const [hash, setHash] = useState(window.location.hash)
   const [updateMessage, setUpdateMessage] = useState('')
   const [updateReady, setUpdateReady] = useState(false)
 
@@ -44,7 +51,7 @@ function App() {
     return () => media.removeEventListener?.('change', update)
   }, [theme])
 
-  useEffect(() => { if (selectedCourse) setExpanded(selectedCourse.chapters[0] ? [selectedCourse.chapters[0].id] : []) }, [selectedCourse])
+  useEffect(() => { if (selectedCourse) setExpanded(selectedCourse.chapters[0] ? [selectedCourse.chapters[0].id] : []) }, [selectedCourse?.id])
 
   useEffect(() => {
     document.documentElement.dataset.fs = fontSize
@@ -76,7 +83,51 @@ function App() {
     else setUpdateMessage('بررسی انجام نشد. کمی بعد دوباره تلاش کنید.')
   }
 
-  const filtered = useMemo(() => categories.filter(c => c.title.includes(query.trim())), [query])
+  useEffect(() => {
+    const onHash = () => setHash(window.location.hash)
+    window.addEventListener('hashchange', onHash)
+    return () => window.removeEventListener('hashchange', onHash)
+  }, [])
+
+  // بارگذاری محتوا: هنگام باز شدن، وصل شدن اینترنت و برگشتن به برنامه (بدون نیاز به نصب نسخه جدید برنامه)
+  const loadContent = async () => {
+    const res = await fetchContent()
+    if (!res) { setLoadFailed(true); return }
+    setLoadFailed(false)
+    if (res.raw === lastRaw.current) return
+    lastRaw.current = res.raw
+    setCategories(res.categories)
+  }
+  useEffect(() => {
+    loadContent()
+    const onVisible = () => { if (document.visibilityState === 'visible') loadContent() }
+    window.addEventListener('online', loadContent)
+    document.addEventListener('visibilitychange', onVisible)
+    return () => { window.removeEventListener('online', loadContent); document.removeEventListener('visibilitychange', onVisible) }
+  }, [])
+
+  // اگر محتوا در حین استفاده به‌روز شد، صفحه‌ای که باز است با نسخه جدید جایگزین شود
+  useEffect(() => {
+    if (!categories) return
+    const cat = selectedCategory ? categories.find(c => c.id === selectedCategory.id) ?? null : null
+    const course = cat && selectedCourse ? cat.courses.find(c => c.id === selectedCourse.id) ?? null : null
+    const lesson = course && selectedLesson ? course.chapters.flatMap(ch => ch.lessons).find(l => l.id === selectedLesson.id) ?? null : null
+    if (cat !== selectedCategory) setSelectedCategory(cat)
+    if (course !== selectedCourse) setSelectedCourse(course)
+    if (lesson !== selectedLesson) setSelectedLesson(lesson)
+  }, [categories])
+
+  const cats = useMemo(() => categories ?? [], [categories])
+  const recent = useMemo(() => {
+    const out: { category: Category; course: Course; chapter: Chapter; lesson: Lesson }[] = []
+    for (const category of cats) for (const course of category.courses) for (const chapter of course.chapters) for (const lesson of chapter.lessons) if (lesson.updatedAt) out.push({ category, course, chapter, lesson })
+    return out.sort((x, y) => (y.lesson.updatedAt as string).localeCompare(x.lesson.updatedAt as string)).slice(0, 3)
+  }, [cats])
+  const openRecent = (r: { category: Category; course: Course; chapter: Chapter; lesson: Lesson }) => {
+    setSelectedCategory(r.category); setSelectedCourse(r.course); setSelectedLesson(r.lesson); setExpanded([r.chapter.id]); setTab('courses')
+  }
+
+  const filtered = useMemo(() => cats.filter(c => c.title.includes(query.trim())), [cats, query])
   const flat = useMemo(() => selectedCourse ? selectedCourse.chapters.flatMap(chapter => chapter.lessons.map(lesson => ({ lesson, chapter }))) : [], [selectedCourse])
   const lessonIndex = selectedLesson ? flat.findIndex(x => x.lesson.id === selectedLesson.id) : -1
   const lessonChapter = lessonIndex >= 0 ? flat[lessonIndex].chapter : null
@@ -115,6 +166,20 @@ function App() {
     { id: 'settings', label: 'تنظیمات', icon: Settings },
   ]
 
+  if (hash.startsWith('#/admin')) {
+    return <Suspense fallback={<div className="adm-loading">در حال بارگذاری پنل...</div>}><Admin onExit={() => { window.location.hash = '' }} /></Suspense>
+  }
+
+  if (categories === null) {
+    return (
+      <div className="app-shell"><div className="main-content">
+        {loadFailed
+          ? <div className="empty-panel"><BookOpen size={30}/><strong>محتوا بارگذاری نشد</strong><p>اتصال اینترنت را بررسی کنید و دوباره تلاش کنید.</p><button className="retry-btn" onClick={loadContent}>تلاش مجدد</button></div>
+          : <><div className="sk-b" style={{ height: 92 }}/><div className="sk-grid" style={{ marginTop: 26 }}>{[0, 1, 2, 3].map(i => <div className="sk-b" key={i} style={{ height: 112 }}/>)}</div></>}
+      </div></div>
+    )
+  }
+
   return (
     <div className="app-shell">
       <header className="topbar">
@@ -135,7 +200,7 @@ function App() {
               <div className="welcome-orb"><BookMarked size={25}/></div>
               <div><p className="eyebrow">مرجع آموزشی مؤسسه</p><h1>یادگیری را از اینجا شروع کنید</h1><p>دوره و درس موردنظر خود را انتخاب کنید.</p></div>
             </section>
-            <div className="section-heading"><div><h2>موضوعات آموزشی</h2><p>{categories.length.toLocaleString('fa-IR')} حوزه آموزشی</p></div><span className="count-pill">{categories.length.toLocaleString('fa-IR')} موضوع</span></div>
+            <div className="section-heading"><div><h2>موضوعات آموزشی</h2><p>{cats.length.toLocaleString('fa-IR')} حوزه آموزشی</p></div><span className="count-pill">{cats.length.toLocaleString('fa-IR')} موضوع</span></div>
             <div className="search-box"><Search size={18}/><input id="course-search" value={query} onChange={e => setQuery(e.target.value)} placeholder="جست‌وجوی موضوع آموزشی..." /></div>
             <section className="category-grid">
               {filtered.map(category => {
@@ -149,21 +214,21 @@ function App() {
               })}
               {filtered.length === 0 && <div className="empty-state">موضوعی با این نام پیدا نشد.</div>}
             </section>
-            <section className="recent-section">
+            {recent.length > 0 && <section className="recent-section">
               <div className="section-heading"><div><h2>آخرین مطالب اضافه‌شده</h2><p>دسترسی سریع به محتوای آموزشی</p></div></div>
-              <button className="recent-card" onClick={() => { const c = categories[0]; chooseCategory(c); setSelectedCourse(c.courses[0] || null) }}>
+              {recent.map(r => <button className="recent-card" key={r.lesson.id} onClick={() => openRecent(r)}>
                 <span className="recent-icon"><FileText size={21}/></span>
-                <span className="recent-text"><strong>تعریف حسابداری</strong><small>اصول حسابداری · فصل اول</small></span>
+                <span className="recent-text"><strong>{r.lesson.title}</strong><small>{r.category.title} · {r.chapter.title.split(':')[0]}</small></span>
                 <ChevronLeft size={18}/>
-              </button>
-            </section>
+              </button>)}
+            </section>}
           </>
         )}
 
         {tab === 'courses' && !selectedCategory && !selectedCourse && !selectedLesson && (
           <section className="page-section">
             <div className="page-title"><h1>دوره‌های آموزشی</h1><p>یکی از موضوعات را برای مشاهده دوره‌ها انتخاب کنید.</p></div>
-            <div className="category-list">{categories.map(c => <button className="list-row" key={c.id} onClick={() => chooseCategory(c)}><span>{c.title}</span><ChevronLeft size={18}/></button>)}</div>
+            <div className="category-list">{cats.map(c => <button className="list-row" key={c.id} onClick={() => chooseCategory(c)}><span>{c.title}</span><ChevronLeft size={18}/></button>)}</div>
           </section>
         )}
 
@@ -201,9 +266,7 @@ function App() {
               {([['sm', 'کوچک', 14], ['md', 'متوسط', 17], ['lg', 'بزرگ', 21]] as const).map(([key, label, px]) =>
                 <button key={key} className={`fsb ${fontSize === key ? 'sel' : ''}`} aria-label={`متن ${label}`} onClick={() => setFontSize(key)} style={{ fontSize: px }}>آ</button>)}
             </div></div>
-            {selectedLesson.blocks?.length ? selectedLesson.blocks.map((block, i) => block.type === 'text'
-              ? <div className="text-block" key={i}>{block.text}</div>
-              : <div key={i}><div className="video-frame"><iframe src={`https://www.aparat.com/video/video/embed/videohash/${block.id}/vt/frame?titleShow=true`} allowFullScreen loading="lazy" title="ویدئوی آموزشی" /></div><a className="video-link" href={`https://www.aparat.com/v/${block.id}`} target="_blank" rel="noopener noreferrer">باز کردن ویدئو در آپارات ↗</a></div>)
+            {selectedLesson.blocks?.length ? selectedLesson.blocks.map((block, i) => <BlockView key={i} block={block} />)
               : <article className="lesson-content"><h2>محتوای درس</h2><p>{selectedLesson.summary || 'محتوای این درس هنوز آماده نشده است.'}</p><div className="content-placeholder"><FileText size={28}/><strong>فضای محتوای آموزشی</strong><span>متن قالب‌بندی‌شده، تصویر، جدول، PDF و ویدئو در این بخش قرار می‌گیرند.</span></div></article>}
             <div className="lend">پایان درس «{selectedLesson.title}»<br/>درس {(lessonIndex + 1).toLocaleString('fa-IR')} از {flat.length.toLocaleString('fa-IR')}</div>
             <div className="lnav">
@@ -219,8 +282,7 @@ function App() {
           <div className="settings-group"><h3>مدیریت برنامه</h3>
             <button className="setting-row" onClick={manualCheck}><RefreshCw/><span><strong>بررسی به‌روزرسانی</strong><small>نسخه فعلی: {APP_VERSION}</small></span><ChevronLeft/></button>
             <button className="setting-row" onClick={() => setTab('offline')}><Download/><span><strong>مدیریت محتوای آفلاین</strong><small>مشاهده فایل‌های ذخیره‌شده</small></span><ChevronLeft/></button>
-            <button className="setting-row" onClick={() => setShowAdminInfo(v => !v)}><ShieldCheck/><span><strong>پنل مدیریت</strong><small>مدیریت محتوای آموزشی</small></span><ChevronLeft/></button>
-            {showAdminInfo && <div className="notice">پنل مدیریت در این نسخه نمایشی هنوز فعال نیست. برای انتشار امن محتوا در GitHub باید اتصال امن سمت سرور و احراز هویت مدیر پیاده‌سازی شود. هیچ توکن GitHub در برنامه عمومی قرار داده نمی‌شود.</div>}
+            <button className="setting-row" onClick={() => { window.location.hash = '#/admin' }}><ShieldCheck/><span><strong>پنل مدیریت</strong><small>ورود مدیر و ویرایش محتوا</small></span><ChevronLeft/></button>
           </div>
           <div className="settings-group"><h3>درباره برنامه</h3><div className="about-card"><strong>ترازمشاور (آزمایشی)</strong><span>نسخه {APP_VERSION}</span><p>مرجع آموزشی مؤسسه؛ نسخه اولیه جهت بررسی ساختار و تجربه کاربری.</p></div></div>
         </section>}

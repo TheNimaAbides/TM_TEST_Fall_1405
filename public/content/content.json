@@ -1,0 +1,173 @@
+{
+  "version": 1,
+  "updatedAt": "2026-11-09T05:02:07.653Z",
+  "categories": [
+    {
+      "id": "accounting",
+      "title": "اصول حسابداری",
+      "icon": "calculator",
+      "color": "violet",
+      "courses": [
+        {
+          "id": "accounting-1",
+          "title": "دوره اصول حسابداری ۱",
+          "description": "آشنایی با مفاهیم پایه و معادله حسابداری",
+          "chapters": [
+            {
+              "id": "ch-1",
+              "title": "فصل اول: آشنایی با حسابداری",
+              "lessons": [
+                {
+                  "id": "l-1",
+                  "title": "تعریف حسابداری",
+                  "summary": "مفهوم، هدف و جایگاه حسابداری",
+                  "updatedAt": "2026-11-09T05:02:07.653Z"
+                },
+                {
+                  "id": "l-2",
+                  "title": "انواع مؤسسات",
+                  "summary": "طبقه‌بندی مؤسسات از نظر فعالیت"
+                },
+                {
+                  "id": "l-3",
+                  "title": "استفاده‌کنندگان اطلاعات",
+                  "summary": "استفاده‌کنندگان داخلی و خارجی"
+                }
+              ]
+            },
+            {
+              "id": "ch-2",
+              "title": "فصل دوم: معادله حسابداری",
+              "lessons": [
+                {
+                  "id": "l-4",
+                  "title": "دارایی",
+                  "summary": "تعریف و نمونه‌های دارایی"
+                },
+                {
+                  "id": "l-5",
+                  "title": "بدهی",
+                  "summary": "تعهدات اقتصادی واحد تجاری"
+                },
+                {
+                  "id": "l-6",
+                  "title": "سرمایه",
+                  "summary": "حقوق مالکانه و اجزای آن"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "payroll",
+      "title": "حقوق و دستمزد",
+      "icon": "wallet",
+      "color": "green",
+      "courses": []
+    },
+    {
+      "id": "commerce",
+      "title": "سامانه جامع تجارت",
+      "icon": "store",
+      "color": "blue",
+      "courses": []
+    },
+    {
+      "id": "holoo",
+      "title": "نرم‌افزار هلو",
+      "icon": "receipt",
+      "color": "orange",
+      "courses": []
+    },
+    {
+      "id": "sepidar",
+      "title": "نرم‌افزار سپیدار",
+      "icon": "monitor",
+      "color": "cyan",
+      "courses": [
+        {
+          "id": "sepidar-1",
+          "title": "دوره آموزش سپیدار مقدماتی",
+          "description": "آشنایی با محیط و تنظیمات اولیه نرم‌افزار سپیدار",
+          "chapters": [
+            {
+              "id": "sp-ch-1",
+              "title": "فصل اول: شروع کار با سپیدار",
+              "lessons": [
+                {
+                  "id": "sp-l-1",
+                  "title": "آشنایی با محیط نرم‌افزار",
+                  "summary": "منوها و بخش‌های اصلی سپیدار",
+                  "blocks": [
+                    {
+                      "type": "text",
+                      "text": "در این درس با محیط کلی نرم‌افزار سپیدار، منوها و بخش‌های اصلی آن آشنا می‌شوید. پیشنهاد می‌شود پیش از دیدن ویدئو، این مقدمه را مطالعه کنید."
+                    },
+                    {
+                      "type": "video",
+                      "id": "nbeao6c"
+                    },
+                    {
+                      "type": "text",
+                      "text": "پس از دیدن ویدئو، نرم‌افزار را باز کنید و منوهای اصلی را یک‌بار به‌صورت عملی مرور کنید تا با جای هر بخش آشنا شوید."
+                    }
+                  ],
+                  "updatedAt": "2026-11-09T05:02:07.653Z"
+                },
+                {
+                  "id": "sp-l-2",
+                  "title": "ایجاد سال مالی",
+                  "summary": "ساخت اولین سال مالی",
+                  "blocks": [
+                    {
+                      "type": "text",
+                      "text": "محتوای این درس به‌زودی اضافه می‌شود."
+                    }
+                  ],
+                  "updatedAt": "2026-11-09T05:02:07.653Z"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "raz",
+      "title": "نرم‌افزار راز",
+      "icon": "chart",
+      "color": "pink",
+      "courses": []
+    },
+    {
+      "id": "excel",
+      "title": "اکسل",
+      "icon": "table",
+      "color": "green",
+      "courses": []
+    },
+    {
+      "id": "word",
+      "title": "ورد",
+      "icon": "file",
+      "color": "blue",
+      "courses": []
+    },
+    {
+      "id": "typing",
+      "title": "تایپ ده‌انگشتی",
+      "icon": "keyboard",
+      "color": "amber",
+      "courses": []
+    },
+    {
+      "id": "career",
+      "title": "مصاحبه شغلی",
+      "icon": "briefcase",
+      "color": "slate",
+      "courses": []
+    }
+  ]
+}

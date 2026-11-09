@@ -1,7 +1,7 @@
 // بررسی نسخه جدید برنامه
 // روش کار: فایل index.html را (بدون کش) از اینترنت می‌گیریم و نام فایل اصلی برنامه (assets/index-xxxx.js) را
 // با نام فایلی که الان در حال اجراست مقایسه می‌کنیم. با هر انتشار جدید این نام عوض می‌شود.
-export const APP_VERSION = '۰.۱.۰'
+export const APP_VERSION = '۰.۲.۰'
 
 export type UpdateResult = 'new' | 'current' | 'offline' | 'error'
 
