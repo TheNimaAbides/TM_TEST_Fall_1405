@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-09T05:02:07.653Z",
+  "updatedAt": "2026-11-09T10:35:24.558Z",
   "categories": [
     {
       "id": "accounting",
@@ -150,10 +150,40 @@
     },
     {
       "id": "word",
-      "title": "ورد",
+      "title": "ورد (پیشرفته)",
       "icon": "file",
       "color": "blue",
-      "courses": []
+      "courses": [
+        {
+          "id": "co-0n682n09",
+          "title": "مقدمه",
+          "description": "یادآوری مباحث مقدماتی ورد",
+          "chapters": [
+            {
+              "id": "ch-060t5e56",
+              "title": "01_یادآوری",
+              "lessons": [
+                {
+                  "id": "l-1m2k0x2t",
+                  "title": "یادآوری",
+                  "summary": "",
+                  "blocks": [
+                    {
+                      "type": "video",
+                      "id": "nbeao6c"
+                    },
+                    {
+                      "type": "text",
+                      "text": "متن آزمایشی مقدماتی "
+                    }
+                  ],
+                  "updatedAt": "2026-11-09T10:35:13.800Z"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "typing",
