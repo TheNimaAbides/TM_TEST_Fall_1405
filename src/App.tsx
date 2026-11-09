@@ -40,7 +40,7 @@ function App() {
   const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia?.('(prefers-color-scheme: dark)').matches)
   useEffect(() => {
     document.documentElement.dataset.theme = isDark ? 'dark' : 'light'
-    document.getElementById('theme-color')?.setAttribute('content', isDark ? '#101722' : '#f5f7fb')
+    document.getElementById('theme-color')?.setAttribute('content', isDark ? '#071626' : '#ffffff')
     try { localStorage.setItem('tm-theme', theme) } catch { /* storage unavailable */ }
   }, [theme, isDark])
 
