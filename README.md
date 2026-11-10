@@ -19,13 +19,6 @@ npm.cmd install
 npm.cmd run dev
 ```
 
-## تغییرات این نسخه
-- رفع خطای ساخت: فایل `src/vite-env.d.ts` اضافه شد (بدون آن `npm run build` در مرحله TypeScript خطا می‌داد).
-- افزودن Workflow انتشار خودکار روی GitHub Pages (`.github/workflows/deploy.yml`).
-- Service Worker: فایل‌های ساخته‌شده برنامه (js و css) هنگام نصب کش می‌شوند؛ قبلاً فقط بعد از بار دوم باز کردن آفلاین کار می‌کرد. صفحه‌ها network-first با زمان‌سنج ۵ ثانیه.
-- آیکن‌ها: آیکن maskable جداگانه برای Android و آیکن ۱۸۰ پیکسلی مخصوص iPhone.
-- افزودن تگ‌های لازم iOS برای اجرای تمام‌صفحه.
-
 ## پنل مدیریت و محتوا
 - همه دسته‌ها، دوره‌ها، فصل‌ها و درس‌ها در فایل `public/content/content.json` هستند (نه داخل کد).
 - ویرایش محتوا از **تنظیمات ← پنل مدیریت** انجام می‌شود. راه‌اندازی یک‌باره: `docs/setup-admin-panel.md`، استفاده روزمره: `docs/using-admin-panel.md`.
