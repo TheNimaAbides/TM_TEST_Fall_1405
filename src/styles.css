@@ -24,3 +24,52 @@
 
 .brand-mark{background:#fff;border:1px solid var(--line);padding:4px;overflow:hidden}.brand-mark img{height:34px;width:auto;display:block}
 .about-logo{background:#fff;border-radius:12px;padding:12px;display:flex;justify-content:center;margin-bottom:6px}.about-logo img{width:100%;max-width:280px;height:auto;display:block}
+
+
+/* Glassmorphism theme — visual-only overrides */
+:root{
+  --glass-bg:rgba(255,255,255,.68);
+  --glass-bg-strong:rgba(255,255,255,.82);
+  --glass-border:rgba(255,255,255,.78);
+  --glass-shadow:0 10px 30px rgba(11,31,58,.08),inset 0 1px 0 rgba(255,255,255,.72);
+}
+:root[data-theme="dark"]{
+  --glass-bg:rgba(11,31,58,.58);
+  --glass-bg-strong:rgba(11,31,58,.78);
+  --glass-border:rgba(198,154,75,.18);
+  --glass-shadow:0 10px 30px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.07);
+}
+body{
+  background:radial-gradient(ellipse at 12% 0%,rgba(198,154,75,.10),transparent 42%),radial-gradient(ellipse at 88% 35%,rgba(11,31,58,.07),transparent 45%),var(--bg);
+}
+:root[data-theme="dark"] body{
+  background:radial-gradient(ellipse at 12% 0%,rgba(198,154,75,.12),transparent 42%),radial-gradient(ellipse at 88% 35%,rgba(35,83,125,.22),transparent 48%),var(--bg);
+}
+.app-shell{background:transparent}
+.topbar,.bottom-nav,.adm-top,.adm-bar{
+  background:var(--glass-bg-strong);
+  border-color:var(--glass-border);
+  -webkit-backdrop-filter:blur(18px) saturate(145%);
+  backdrop-filter:blur(18px) saturate(145%);
+  box-shadow:var(--glass-shadow);
+}
+.welcome-card{
+  background:linear-gradient(120deg,rgba(11,31,58,.88),rgba(23,57,93,.72));
+  border:1px solid rgba(255,255,255,.2);
+  -webkit-backdrop-filter:blur(18px) saturate(145%);
+  backdrop-filter:blur(18px) saturate(145%);
+}
+.category-card,.recent-card,.course-card,.chapter,.lesson-content,.list-row,.setting-row,.about-card,.search-box,.text-block,.file-block,.lnav button,.fsb,.update-banner,.adm-card,.adm-row,.adm-block,.adm-icon,.adm-btn,.adm-input,.adm-select{
+  background:var(--glass-bg);
+  border-color:var(--glass-border);
+  box-shadow:var(--glass-shadow);
+  -webkit-backdrop-filter:blur(16px) saturate(140%);
+  backdrop-filter:blur(16px) saturate(140%);
+}
+.adm-row.lesson{background:var(--glass-bg)}
+.adm-input,.adm-select{background:var(--glass-bg-strong)}
+.bottom-nav button.active{background:rgba(198,154,75,.14)}
+:root[data-theme="dark"] .bottom-nav button.active{background:rgba(198,154,75,.2)}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .topbar,.bottom-nav,.category-card,.recent-card,.course-card,.chapter,.lesson-content,.list-row,.setting-row,.about-card,.search-box,.text-block,.file-block,.lnav button,.fsb,.update-banner,.adm-top,.adm-bar,.adm-card,.adm-row,.adm-block,.adm-icon,.adm-btn,.adm-input,.adm-select{background:var(--surface)}
+}
