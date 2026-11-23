@@ -1,17 +1,17 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-09T10:35:24.558Z",
+  "updatedAt": "2026-11-23T19:35:21.556Z",
   "categories": [
     {
       "id": "accounting",
       "title": "اصول حسابداری",
-      "icon": "calculator",
+      "icon": "book",
       "color": "violet",
       "courses": [
         {
           "id": "accounting-1",
-          "title": "دوره اصول حسابداری ۱",
-          "description": "آشنایی با مفاهیم پایه و معادله حسابداری",
+          "title": "جلسه اول اصول حسابداری عملی",
+          "description": "آشنایی با مفاهیم پایه و معادله حسابدار",
           "chapters": [
             {
               "id": "ch-1",
